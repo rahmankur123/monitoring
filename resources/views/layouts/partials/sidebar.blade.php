@@ -12,6 +12,16 @@
         </div>
 
         {{-- ========================= --}}
+        {{-- DASHBOARD --}}
+        {{-- ========================= --}}
+        <div class="menu-title">Dashboard</div>
+
+        <a href="/{{ auth()->user()->role }}" class="menu-item">
+            🏠 Dashboard
+        </a>
+
+
+        {{-- ========================= --}}
         {{-- ADMIN --}}
         {{-- ========================= --}}
         @if(auth()->user()->role == 'admin')
@@ -100,7 +110,7 @@
         {{-- ========================= --}}
         {{-- LOGOUT --}}
         {{-- ========================= --}}
-        <div class="logout-box">
+        <div class="logout-box mt-4">
             <form action="/logout" method="POST">
                 @csrf
                 <button class="btn btn-danger w-100">

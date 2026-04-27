@@ -9,24 +9,9 @@ use PDF;
 
 class KegiatanController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | INDEX ADMIN
-    |--------------------------------------------------------------------------
-    | Draft + Ditolak dipisah tabel
-    | Proses = menunggu_validasi + disetujui + berlangsung
-    | Selesai = kegiatan selesai
-    */
 
     public function index($status = 'draft')
     {
-        /*
-        =========================================
-        DRAFT + DITOLAK
-        =========================================
-        */
-        if ($status == 'draft') {
-
             $draft = Kegiatan::withCount('anggaran')
                 ->where('status', 'draft')
                 ->latest()
@@ -40,68 +25,30 @@ class KegiatanController extends Controller
             return view(
                 'admin.kegiatan.index',
                 compact('draft', 'ditolak', 'status')
+
             );
         }
+public function proses()
+{
+    $menunggu = Kegiatan::where('status','menunggu_validasi')->get();
+    $dijadwalkan = Kegiatan::where('status','disetujui')->get();
+    $berlangsung = Kegiatan::where('status','berlangsung')->get();
 
-        /*
-        =========================================
-        PROSES
-        =========================================
-        */
-        elseif ($status == 'proses') {
+    return view('admin.kegiatan.proses', compact(
+        'menunggu','dijadwalkan','berlangsung'
+    ));
+}
+public function selesaikan()
+{
+    $selesai = Kegiatan::with(['anggaran','realisasi'])
+        ->where('status','selesai')
+        ->latest()
+        ->get();
+    $dibatalkan = Kegiatan::where('status','dibatalkan')->latest()->get();
+    return view('admin.kegiatan.selesai', compact('selesai', 'dibatalkan'));
+}
 
-            $menunggu = Kegiatan::withCount('anggaran')
-                ->where('status', 'menunggu_validasi')
-                ->latest()
-                ->get();
-
-            $dijadwalkan = Kegiatan::withCount('anggaran')
-                ->where('status', 'disetujui')
-                ->latest()
-                ->get();
-
-            $berlangsung = Kegiatan::withCount('anggaran')
-                ->where('status', 'berlangsung')
-                ->latest()
-                ->get();
-
-            return view(
-                'admin.kegiatan.proses',
-                compact(
-                    'menunggu',
-                    'dijadwalkan',
-                    'berlangsung',
-                    'status'
-                )
-            );
-        }
-
-        /*
-        =========================================
-        SELESAI
-        =========================================
-        */
-        elseif ($status == 'selesai') {
-
-            $kegiatan = Kegiatan::with([
-                    'anggaran',
-                    'realisasi',
-                    'lpj'
-                ])
-                ->where('status', 'selesai')
-                ->latest()
-                ->get();
-
-            return view(
-                'admin.kegiatan.selesai',
-                compact('kegiatan', 'status')
-            );
-        }
-
-        abort(404);
-    }
-
-
+   
     /*
     |--------------------------------------------------------------------------
     | CREATE
@@ -199,16 +146,26 @@ class KegiatanController extends Controller
     */
 
     public function mulai($id)
-    {
-        Kegiatan::findOrFail($id)->update([
-            'status' => 'berlangsung'
-        ]);
+{
+    $kegiatan = Kegiatan::findOrFail($id);
 
+    // hanya boleh mulai jika tanggal kegiatan = hari ini
+    if (\Carbon\Carbon::parse($kegiatan->tanggal)->format('Y-m-d') != now()->format('Y-m-d')) {
         return back()->with(
-            'success',
-            'Kegiatan dimulai'
+            'error',
+            'Kegiatan hanya bisa dimulai sesuai tanggal yang telah dijadwalkan.'
         );
     }
+
+    $kegiatan->update([
+        'status' => 'berlangsung'
+    ]);
+
+    return back()->with(
+        'success',
+        'Kegiatan berhasil dimulai'
+    );
+}
 
 
     /*
@@ -228,6 +185,17 @@ class KegiatanController extends Controller
             'Kegiatan selesai'
         );
     }
+
+    public function batal($id)
+{
+    $kegiatan = Kegiatan::findOrFail($id);
+
+    $kegiatan->update([
+        'status' => 'dibatalkan'
+    ]);
+
+    return redirect()->back()->with('success', 'Kegiatan berhasil dibatalkan');
+}
 
 
     /*

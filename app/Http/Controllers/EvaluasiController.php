@@ -4,15 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Evaluasi;
+use App\Models\Kegiatan;
 
 class EvaluasiController extends Controller
 {
     public function index($kegiatan_id)
-    {
-        $evaluasi = Evaluasi::where('kegiatan_id', $kegiatan_id)->get();
+{
+    $kegiatan = Kegiatan::with('evaluasi')->findOrFail($kegiatan_id);
 
-        return view('evaluasi.index', compact('evaluasi','kegiatan_id'));
-    }
+    $evaluasi = $kegiatan->evaluasi;
+
+    return view('evaluasi.index', compact(
+        'kegiatan',
+        'evaluasi'
+    ));
+}
 
     public function store(Request $request)
     {

@@ -32,7 +32,7 @@ class AnggaranController extends Controller
             ]);
         }
 
-        return redirect('/bendahara/anggaran')->with('success','Anggaran berhasil disimpan');
+        return redirect('/bendahara/anggaran/draft')->with('success','Anggaran berhasil disimpan');
     }
 public function index($status = 'draft')
 {

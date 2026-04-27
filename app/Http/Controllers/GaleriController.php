@@ -5,15 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Galeri;
+use App\Models\Kegiatan;
 
 class GaleriController extends Controller
 {
     public function index($kegiatan_id)
-    {
-        $galeri = Galeri::where('kegiatan_id', $kegiatan_id)->get();
+{
+    $kegiatan = Kegiatan::with('galeri')->findOrFail($kegiatan_id);
 
-        return view('admin.galeri.index', compact('galeri','kegiatan_id'));
-    }
+    $galeri = $kegiatan->galeri;
+
+    return view('admin.galeri.index', compact(
+        'kegiatan',
+        'galeri'
+    ));
+}
 
     public function store(Request $request)
 {
@@ -36,4 +42,21 @@ class GaleriController extends Controller
 
     return back()->with('success','Foto berhasil upload');
 }
+
+    public function destroy($id)
+    {
+        $galeri = Galeri::findOrFail($id);
+
+        if (file_exists(public_path('storage/' . $galeri->foto))) {
+            unlink(public_path('storage/' . $galeri->foto));
+        }
+        
+        $galeri->delete();
+
+        
+
+
+
+        return back()->with('success','Foto berhasil dihapus');
+    }
 }

@@ -20,11 +20,11 @@ class AuthController extends Controller
 
             // redirect berdasarkan role
             if (auth()->user()->role == 'admin') {
-                return redirect('/admin/kegiatan');
+                return redirect('/admin/');
             } elseif (auth()->user()->role == 'bendahara') {
-                return redirect('/bendahara/kas');
+                return redirect('/bendahara/');
             } elseif (auth()->user()->role == 'takmir') {
-                return redirect('/takmir/kegiatan');
+                return redirect('/takmir/');
             }
         }
 

@@ -2,19 +2,12 @@
 
 @section('content')
 
-<h4 class="mb-4">📋 Validasi Kegiatan</h4>
+<h4 class="mb-4">⏳ Proses Kegiatan</h4>
 
-@if(session('success'))
-<div class="alert alert-success alert-dismissible fade show">
-    {{ session('success') }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-</div>
-@endif
-
-{{-- MENUNGGU VALIDASI --}}
+{{-- DIJADWALKAN --}}
 <div class="card shadow-sm mb-4">
-    <div class="card-header bg-warning">
-        ⏳ Menunggu Validasi
+    <div class="card-header bg-info text-white">
+        📅 Dijadwalkan
     </div>
 
     <div class="card-body">
@@ -26,19 +19,19 @@
                 <th width="200">Aksi</th>
             </tr>
 
-            @forelse($menunggu as $k)
+            @forelse($dijadwalkan as $k)
             <tr>
                 <td>{{ $k->judul }}</td>
                 <td>{{ $k->tanggal }}</td>
                 <td>
-                    <span class="badge bg-warning">
-                        Menunggu
+                    <span class="badge bg-info">
+                        Disetujui
                     </span>
                 </td>
                 <td>
                     <a href="/takmir/kegiatan/detail/{{ $k->id }}"
                        class="btn btn-info btn-sm">
-                        Detail
+                        Lihat
                     </a>
                 </td>
             </tr>
@@ -54,10 +47,10 @@
 </div>
 
 
-{{-- DITOLAK --}}
+{{-- BERLANGSUNG --}}
 <div class="card shadow-sm">
-    <div class="card-header bg-danger text-white">
-        ❌ Ditolak
+    <div class="card-header bg-primary text-white">
+        ▶️ Berlangsung
     </div>
 
     <div class="card-body">
@@ -65,28 +58,22 @@
             <tr>
                 <th>Judul</th>
                 <th>Tanggal</th>
-                <th>Catatan</th>
                 <th>Status</th>
             </tr>
 
-            @forelse($ditolak as $k)
+            @forelse($berlangsung as $k)
             <tr>
                 <td>{{ $k->judul }}</td>
                 <td>{{ $k->tanggal }}</td>
-                <td>{{ $k->catatan_takmir ?? '-' }}</td>
                 <td>
-                    <span class="badge bg-danger">
-                        Ditolak
+                    <span class="badge bg-primary">
+                        Berlangsung
                     </span>
-                    <a href="/takmir/kegiatan/detail/{{ $k->id }}"
-                       class="btn btn-info btn-sm">
-                        Detail
-                    </a>
                 </td>
             </tr>
             @empty
             <tr>
-                <td colspan="4" class="text-center text-muted">
+                <td colspan="3" class="text-center text-muted">
                     Tidak ada data
                 </td>
             </tr>

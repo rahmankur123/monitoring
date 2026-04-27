@@ -129,6 +129,14 @@
                                 Lihat Anggaran
                             </a>
                         @endif
+                        <form action="/admin/kegiatan/submit/{{ $k->id }}"
+                                  method="POST"
+                                  style="display:inline">
+                                @csrf
+                                <button class="btn btn-primary btn-sm">
+                                    Ajukan
+                                </button>
+                            </form>
                     </td>
                 </tr>
                 @empty

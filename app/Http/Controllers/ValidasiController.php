@@ -9,40 +9,126 @@ use App\Models\LogValidasi;
 
 class ValidasiController extends Controller
 {
-    // list kegiatan
-    public function index($status = null)
-{
-    $query = Kegiatan::with('anggaran');
+    /*
+    |--------------------------------------------------------------------------
+    | DRAFT / INDEX
+    |--------------------------------------------------------------------------
+    | Menampilkan:
+    | - Menunggu Validasi
+    | - Ditolak
+    */
 
-    if ($status == 'menunggu_validasi') {
-        $query->where('status', 'menunggu_validasi');
-    } elseif ($status == 'disetujui') {
-        $query->where('status', 'disetujui');
-    } elseif ($status == 'selesai') {
-        $query->where('status', 'selesai');
+    public function index()
+    {
+        $menunggu = Kegiatan::with('anggaran')
+            ->where('status', 'menunggu_validasi')
+            ->latest()
+            ->get();
+
+        $ditolak = Kegiatan::with('anggaran')
+            ->where('status', 'ditolak')
+            ->latest()
+            ->get();
+
+        return view('takmir.kegiatan.index', compact(
+            'menunggu',
+            'ditolak'
+        ));
     }
 
-    $kegiatan = $query->latest()->get();
 
-    return view('takmir.kegiatan.index', compact('kegiatan','status'));
-}
+    /*
+    |--------------------------------------------------------------------------
+    | PROSES
+    |--------------------------------------------------------------------------
+    | Menampilkan:
+    | - Disetujui (Dijadwalkan)
+    | - Berlangsung
+    */
 
-    // detail kegiatan + anggaran
+    public function proses()
+    {
+        $dijadwalkan = Kegiatan::with('anggaran')
+            ->where('status', 'disetujui')
+            ->latest()
+            ->get();
+
+        $berlangsung = Kegiatan::with('anggaran')
+            ->where('status', 'berlangsung')
+            ->latest()
+            ->get();
+
+        return view('takmir.kegiatan.proses', compact(
+            'dijadwalkan',
+            'berlangsung'
+        ));
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | SELESAI
+    |--------------------------------------------------------------------------
+    | Menampilkan:
+    | - Selesai
+    | - Dibatalkan
+    */
+
+    public function selesai()
+    {
+        $selesai = Kegiatan::with([
+                'anggaran',
+                'realisasi',
+                'lpj',
+                'galeri',
+                'evaluasi'
+            ])
+            ->where('status', 'selesai')
+            ->latest()
+            ->get();
+
+        $dibatalkan = Kegiatan::with('anggaran')
+            ->where('status', 'dibatalkan')
+            ->latest()
+            ->get();
+
+        return view('takmir.kegiatan.selesai', compact(
+            'selesai',
+            'dibatalkan'
+        ));
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | DETAIL KEGIATAN + ANGGARAN
+    |--------------------------------------------------------------------------
+    */
+
     public function show($id)
     {
-        $kegiatan = Kegiatan::with('anggaran')->findOrFail($id);
+        $kegiatan = Kegiatan::with('anggaran')
+            ->findOrFail($id);
 
-        return view('takmir.kegiatan.show', compact('kegiatan'));
+        return view('takmir.kegiatan.show', compact(
+            'kegiatan'
+        ));
     }
 
-    // approve
+
+    /*
+    |--------------------------------------------------------------------------
+    | APPROVE
+    |--------------------------------------------------------------------------
+    */
+
     public function approve($id)
     {
         $kegiatan = Kegiatan::findOrFail($id);
 
         $kegiatan->update([
             'status' => 'disetujui',
-            'validated_by' => 1, // nanti ganti auth
+            'validated_by' => auth()->id(),
             'validated_at' => now(),
             'catatan_takmir' => null
         ]);
@@ -51,15 +137,25 @@ class ValidasiController extends Controller
             'kegiatan_id' => $id,
             'status' => 'disetujui',
             'catatan' => 'Disetujui',
-            'oleh' => 1
+            'oleh' => auth()->id()
         ]);
 
-        return redirect()->back()->with('success','Disetujui');
+        return redirect('/takmir/kegiatan/draft')->with('success', 'Kegiatan berhasil disetujui');
     }
 
-    // reject
+
+    /*
+    |--------------------------------------------------------------------------
+    | REJECT
+    |--------------------------------------------------------------------------
+    */
+
     public function reject(Request $request, $id)
     {
+        $request->validate([
+            'catatan' => 'required'
+        ]);
+
         $kegiatan = Kegiatan::findOrFail($id);
 
         $kegiatan->update([
@@ -71,9 +167,10 @@ class ValidasiController extends Controller
             'kegiatan_id' => $id,
             'status' => 'ditolak',
             'catatan' => $request->catatan,
-            'oleh' => 1
+            'oleh' => auth()->id()
         ]);
 
-        return redirect()->back()->with('success','Ditolak');
+        return redirect('/takmir/kegiatan/draft')->with('success', 'Kegiatan berhasil ditolak');
+        
     }
 }

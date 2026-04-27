@@ -10,6 +10,7 @@ use App\Http\Controllers\EvaluasiController;
 use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\LpjController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -26,13 +27,15 @@ Route::prefix('admin')
     ->middleware(['auth','role:admin'])
     ->group(function () {
 
-
+    
+    Route::get('/kegiatan/draft', [KegiatanController::class, 'index']);
+    Route::get('/kegiatan/proses', [KegiatanController::class, 'proses']);
+    Route::get('/kegiatan/selesai', [KegiatanController::class, 'selesaikan']);
     Route::get('/kegiatan/create', [KegiatanController::class, 'create']) ;
     Route::post('/kegiatan/store', [KegiatanController::class, 'store']);
     Route::get('/kegiatan/edit/{id}', [KegiatanController::class, 'edit']);
     Route::post('/kegiatan/update/{id}', [KegiatanController::class, 'update']);
     Route::post('/kegiatan/submit/{id}', [KegiatanController::class, 'submit']);
-    Route::get('/kegiatan/{status?}', [KegiatanController::class, 'index']);
     Route::get('/kegiatan/{id}/anggaran', [KegiatanController::class, 'listAnggaran']);
 
     // ACTION WORKFLOW
@@ -45,6 +48,7 @@ Route::prefix('admin')
     Route::post('/evaluasi/store', [EvaluasiController::class, 'store']);
     Route::get('/galeri/{kegiatan_id}', [GaleriController::class, 'index']);
     Route::post('/galeri/store', [GaleriController::class, 'store']);
+    Route::post('/galeri/delete/{id}', [GaleriController::class, 'destroy']);
 
     Route::get('/kegiatan/{kegiatan_id}/detail-selesai', [KegiatanController::class, 'detailSelesai']);
 
@@ -53,6 +57,7 @@ Route::get('/laporan/kegiatan', [KegiatanController::class, 'laporan']);
 Route::get('/laporan/kegiatan/pdf', [KegiatanController::class, 'exportKegiatan']);
 Route::get('/laporan/kas', [KasController::class, 'laporan']);
 Route::get('/laporan/kas/pdf', [KasController::class, 'exportKas']);
+Route::get('/', [DashboardController::class, 'admin']);
 });
 
 Route::prefix('bendahara')
@@ -93,6 +98,8 @@ Route::get('/laporan/kegiatan/pdf', [KegiatanController::class, 'exportKegiatan'
 Route::get('/laporan/kas', [KasController::class, 'laporan']);
 Route::get('/laporan/kas/pdf', [KasController::class, 'exportKas']);
 
+Route::get('/', [DashboardController::class, 'bendahara']);
+
 });
 
 Route::prefix('takmir')
@@ -100,7 +107,9 @@ Route::prefix('takmir')
     ->group(function () {
 
     // 🔴 LIST (status)
-    Route::get('/kegiatan/{status?}', [ValidasiController::class, 'index']);
+    Route::get('/kegiatan/draft', [ValidasiController::class, 'index']);
+    Route::get('/kegiatan/proses', [ValidasiController::class, 'proses']);
+    Route::get('/kegiatan/selesai', [ValidasiController::class, 'selesai']);
 
     // 🔴 DETAIL (BEDAKAN URL!)
     Route::get('/kegiatan/detail/{id}', [ValidasiController::class, 'show']);
@@ -118,4 +127,5 @@ Route::prefix('takmir')
 Route::get('/laporan/kas', [KasController::class, 'laporan']);
 Route::get('/laporan/kas/pdf', [KasController::class, 'exportKas']);
 Route::get('/laporan/kegiatan/pdf', [KegiatanController::class, 'exportKegiatan']);
+Route::get('/', [DashboardController::class, 'takmir']);
 });

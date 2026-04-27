@@ -114,8 +114,8 @@
 
         @foreach($kegiatan->evaluasi as $e)
             <div class="mb-3 p-3 border rounded">
-                <b>{{ $e->role }}</b>
-                <p>{{ $e->catatan }}</p>
+                <b>{{ $e->role_pengisi }}</b>
+                <p>{{ $e->isi }}</p>
             </div>
         @endforeach
 

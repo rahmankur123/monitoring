@@ -1,100 +1,162 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Monitoring Masjid</title>
+    <meta name="description" content="Sistem monitoring kegiatan, anggaran, LPJ, evaluasi, dan laporan masjid berbasis Laravel.">
+    <meta name="keywords" content="monitoring masjid, sistem masjid, kegiatan masjid, laporan masjid, anggaran masjid">
+    <meta name="author" content="Monitoring Masjid">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
-    /* RESET */
-body {
-    margin: 0;
-    background: #f0fdf4;
-    font-family: 'Segoe UI', sans-serif;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-/* SIDEBAR */
-.sidebar {
-    width: 250px;
-    min-height: 100vh;
-    background: linear-gradient(180deg, #166534, #14532d);
-    color: #ecfdf5;
-    padding: 20px;
-}
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f8fafc;
+            overflow: hidden;
+        }
 
-/* CONTENT */
-.content {
-    background: #f9fafb;
-    min-height: 100vh;
-}
+        /* SIDEBAR */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100vh;
+            background: linear-gradient(180deg, #166534, #14532d);
+            color: white;
+            padding: 24px 18px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
 
-/* LOGO */
-.logo {
-    text-align: center;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 24px;
+        }
 
-/* USER */
-.user-box {
-    background: rgba(255,255,255,0.1);
-    padding: 10px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-}
+        .user-box {
+            background: rgba(255,255,255,0.10);
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 24px;
+        }
 
-/* TITLE */
-.menu-title {
-    font-size: 12px;
-    text-transform: uppercase;
-    margin-top: 15px;
-    margin-bottom: 8px;
-    color: #bbf7d0;
-}
+        .menu-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #bbf7d0;
+            margin: 18px 0 8px;
+            font-weight: 600;
+        }
 
-/* MENU */
-.menu-item {
-    display: block;
-    padding: 8px 12px;
-    border-radius: 8px;
-    color: #ecfdf5;
-    text-decoration: none;
-    transition: 0.2s;
-}
+        .menu-item {
+            display: block;
+            text-decoration: none;
+            color: #ecfdf5;
+            padding: 10px 14px;
+            border-radius: 10px;
+            margin-bottom: 6px;
+            transition: 0.2s;
+        }
 
-.menu-item:hover {
-    background: rgba(255,255,255,0.15);
-    transform: translateX(5px);
-}
+        .menu-item:hover {
+            background: rgba(255,255,255,0.12);
+            color: white;
+            transform: translateX(4px);
+        }
 
-/* ACTIVE MENU (biar keliatan keren) */
-.menu-item.active {
-    background: #22c55e;
-    color: white;
-}
+        .menu-item.active {
+            background: #22c55e;
+        }
 
-/* BUTTON FIX */
-.btn-primary {
-    background: #16a34a;
-    border: none;
-}
+        /* HEADER */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 250px;
+            right: 0;
+            height: 72px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            z-index: 999;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
 
-.btn-primary:hover {
-    background: #15803d;
-}
+        /* CONTENT */
+        .content {
+            margin-left: 250px;
+            margin-top: 72px;
+            margin-bottom: 58px;
+            height: calc(100vh - 130px);
+            overflow-y: auto;
+            padding: 28px;
+            background: #f8fafc;
+        }
+
+        /* FOOTER */
+        .footer {
+            position: fixed;
+            left: 250px;
+            right: 0;
+            bottom: 0;
+            height: 58px;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #6b7280;
+            z-index: 999;
+        }
+
+        .btn-primary {
+            background: #16a34a;
+            border: none;
+            border-radius: 10px;
+        }
+
+        .btn-primary:hover {
+            background: #15803d;
+        }
+
+        .card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+        }
+
+        .table {
+            background: white;
+        }
     </style>
 </head>
 <body>
 
-<div class="d-flex">
-
-    {{-- SIDEBAR --}}
     @include('layouts.partials.sidebar')
+    @include('layouts.partials.header')
 
-    {{-- CONTENT --}}
-    <div class="content p-4 w-100">
+    <div class="content">
         @yield('content')
     </div>
 
-</div>
+    @include('layouts.partials.footer')
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
