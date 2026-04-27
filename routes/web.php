@@ -11,6 +11,7 @@ use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\LpjController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LandingController;
 
 Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
