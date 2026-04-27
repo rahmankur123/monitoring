@@ -17,12 +17,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
 
-Route::get('/', function () {
-    if (auth()->check()) {
-        return redirect('/login');
-    }
-    return redirect('/login');
-});
+Route::get('/', [LandingController::class, 'index']);
 Route::prefix('admin')
     ->middleware(['auth','role:admin'])
     ->group(function () {
