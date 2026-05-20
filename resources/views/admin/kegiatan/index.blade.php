@@ -18,10 +18,10 @@
         <table class="table table-bordered table-hover align-middle">
             <thead class="table-light">
                 <tr>
-                    <th>Judul</th>
-                    <th>Tanggal</th>
-                    <th>Status Anggaran</th>
-                    <th width="250">Aksi</th>
+                    <th class="col-md-4">Judul</th>
+                    <th class="col-md-2">Tanggal</th>
+                    <th class="col-md-2">Status Anggaran</th>
+                    <th class="col-md-4" width="250">Aksi</th>
                 </tr>
             </thead>
 
@@ -29,8 +29,8 @@
                 @forelse($draft as $k)
                 <tr>
                     <td>{{ $k->judul }}</td>
-                    <td>{{ $k->tanggal }}</td>
-
+                    <td>{{ \Carbon\Carbon::parse($k->tanggal)->format('d M Y') }}</td>
+    
                     <td>
                         @if($k->anggaran_count > 0)
                             <span class="badge bg-success">Sudah Ada</span>
@@ -64,6 +64,17 @@
                                 Belum Ada Anggaran
                             </button>
                         @endif
+
+                        <form action="/admin/kegiatan/{{ $k->id }}"
+                              method="POST"
+                              style="display:inline"
+                              onsubmit="return confirm('Yakin ingin menghapus kegiatan ini?')">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger btn-sm">
+                                Hapus
+                            </button>
+                        </form>
                     </td>
                 </tr>
                 @empty
@@ -101,7 +112,7 @@
                 @forelse($ditolak as $k)
                 <tr>
                     <td>{{ $k->judul }}</td>
-                    <td>{{ $k->tanggal }}</td>
+                    <td>{{ \Carbon\Carbon::parse($k->tanggal)->format('d M Y') }}</td>
 
                     <td>
                         <span class="text-danger">

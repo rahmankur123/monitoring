@@ -68,7 +68,7 @@
                 @forelse($draft as $k)
                 <tr>
                     <td>{{ $k->judul }}</td>
-                    <td>{{ $k->tanggal }}</td>
+                    <td> {{ \Carbon\Carbon::parse($k->tanggal)->format('d M Y') }}</td>
 
                     <td class="text-center">
                         @if($k->anggaran_count > 0)
@@ -137,7 +137,7 @@
             @forelse($menunggu as $k)
             <tr>
                 <td>{{ $k->judul }}</td>
-                <td>{{ $k->tanggal }}</td>
+                <td> {{ \Carbon\Carbon::parse($k->tanggal)->format('d M Y') }}</td>
                 <td><span class="badge bg-warning">Menunggu</span></td>
             </tr>
             @empty
@@ -180,7 +180,7 @@
                 @forelse($ditolak as $k)
                 <tr>
                     <td>{{ $k->judul }}</td>
-                    <td>{{ $k->tanggal }}</td>
+                    <td>{{ \Carbon\Carbon::parse($k->tanggal)->format('d M Y') }}</td>
 
                     <td class="text-center">
                         @if($k->anggaran_count > 0)

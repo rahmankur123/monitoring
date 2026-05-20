@@ -11,14 +11,68 @@ use PDF;
 class KasController extends Controller
 {
     public function index()
-    {
-        $kas = Kas::latest()->get();
+{
+    $kas = Kas::latest()->paginate(10);
 
-        // hitung saldo
-        $saldo = Kas::saldo();
+    // saldo total
+    $saldo = Kas::where('tipe','masuk')->sum('jumlah')
+            - Kas::where('tipe','keluar')->sum('jumlah');
 
-        return view('bendahara.kas.index', compact('kas','saldo'));
-    }
+    // =========================
+    // HARI INI
+    // =========================
+    $today = now()->toDateString();
+
+    $transaksiHariIni = Kas::whereDate('tanggal', $today)->count();
+
+    $masukHariIni = Kas::whereDate('tanggal', $today)
+        ->where('tipe','masuk')
+        ->sum('jumlah');
+
+    $keluarHariIni = Kas::whereDate('tanggal', $today)
+        ->where('tipe','keluar')
+        ->sum('jumlah');
+
+    $selisihHariIni = $masukHariIni - $keluarHariIni;
+
+
+    // =========================
+    // BULAN INI
+    // =========================
+    $bulan = now()->month;
+    $tahun = now()->year;
+
+    $transaksiBulanIni = Kas::whereMonth('tanggal', $bulan)
+        ->whereYear('tanggal', $tahun)
+        ->count();
+
+    $masukBulanIni = Kas::whereMonth('tanggal', $bulan)
+        ->whereYear('tanggal', $tahun)
+        ->where('tipe','masuk')
+        ->sum('jumlah');
+
+    $keluarBulanIni = Kas::whereMonth('tanggal', $bulan)
+        ->whereYear('tanggal', $tahun)
+        ->where('tipe','keluar')
+        ->sum('jumlah');
+
+    $selisihBulanIni = $masukBulanIni - $keluarBulanIni;
+
+    return view('bendahara.kas.index', compact(
+        'kas',
+        'saldo',
+
+        'transaksiHariIni',
+        'masukHariIni',
+        'keluarHariIni',
+        'selisihHariIni',
+
+        'transaksiBulanIni',
+        'masukBulanIni',
+        'keluarBulanIni',
+        'selisihBulanIni'
+    ));
+}
 
     public function create()
     {

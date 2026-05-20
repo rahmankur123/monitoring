@@ -176,7 +176,7 @@
                 @forelse($dibatalkan as $k)
                 <tr>
                     <td>{{ $k->judul }}</td>
-                    <td>{{ $k->tanggal }}</td>
+                    <td>{{ \Carbon\Carbon::parse($k->tanggal)->format('d M Y') }}</td>
                 </tr>
 
                 @empty

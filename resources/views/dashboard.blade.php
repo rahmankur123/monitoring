@@ -45,13 +45,13 @@
 </div>
 
 <div class="card shadow-sm">
-    <div class="card-header bg-dark text-white">
+    <div class="card-header bg-success text-white">
         Kegiatan Terbaru
     </div>
 
     <div class="card-body">
         <table class="table table-bordered table-striped">
-            <thead>
+            <thead class="table-success text-center">
                 <tr>
                     <th>Judul</th>
                     <th>Tanggal</th>

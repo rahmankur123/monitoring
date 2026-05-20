@@ -40,7 +40,7 @@
 
                 <tr>
                     <td>{{ $k->judul }}</td>
-                    <td>{{ $k->tanggal }}</td>
+                    <td>{{ \Carbon\Carbon::parse($k->tanggal)->format('d M Y') }}</td>
 
                     <td>
                         <span class="text-primary fw-bold">
@@ -84,6 +84,17 @@
                                 Detail
                             </a>
 
+                            <form action="/admin/kegiatan/{{ $k->id }}"
+                                method="POST"
+                                style="display:inline"
+                                onsubmit="return confirm('Yakin ingin menghapus kegiatan ini?')">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger btn-sm">
+                                    Hapus
+                                </button>
+                            </form>
+
                         </div>
                     </td>
                 </tr>
@@ -121,11 +132,22 @@
                 @forelse($dibatalkan as $k)
                 <tr>
                     <td>{{ $k->judul }}</td>
-                    <td>{{ $k->tanggal }}</td>
+                    <td>{{ \Carbon\Carbon::parse($k->tanggal)->format('d M Y') }}</td>
                     <td>
-                        <span class="badge bg-danger">
-                            Dibatalkan
-                        </span>
+                        <button class="btn btn-secondary btn-sm" disabled>
+                                Dibatalkan
+                            </button>
+
+                        <form action="/admin/kegiatan/{{ $k->id }}"
+                              method="POST"
+                              style="display:inline"
+                              onsubmit="return confirm('Yakin ingin menghapus kegiatan ini?')">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger btn-sm">
+                                Hapus
+                            </button>
+                        </form>
                     </td>
                 </tr>
                 @empty

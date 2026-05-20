@@ -40,6 +40,12 @@
                 ✅ Selesai
             </a>
 
+            <div class="menu-title">Manajemen</div>
+
+            <a href="/admin/user" class="menu-item">
+                👤 User
+            </a>
+
         @endif
 
 

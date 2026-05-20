@@ -352,4 +352,14 @@ public function selesaikan()
             'laporan-kegiatan-' . $bulan . '.pdf'
         );
     }
+
+    public function destroy($id)
+    {
+        Kegiatan::findOrFail($id)->delete();
+
+        return back()->with(
+            'success',
+            'Kegiatan berhasil dihapus'
+        );
+    }
 }

@@ -31,23 +31,34 @@
 
     <div class="card-body">
         <table class="table table-bordered">
+            <thead class="table-success">
             <tr>
                 <th>Judul</th>
                 <th>Tanggal</th>
                 <th>Status</th>
             </tr>
+            </thead>
 
-            @foreach($menunggu as $k)
+            <tbody>
+                
+            @forelse($menunggu as $k)
             <tr>
                 <td>{{ $k->judul }}</td>
-                <td>{{ $k->tanggal }}</td>
+                <td>{{ \Carbon\Carbon::parse($k->tanggal)->format('d M Y') }}</td>
                 <td>
                     <span class="badge bg-warning">
                         Menunggu
                     </span>
                 </td>
             </tr>
-            @endforeach
+            @empty
+            <tr>
+                <td colspan="3" class="text-center">
+                    Tidak ada kegiatan yang menunggu validasi.
+                </td>
+            </tr>
+            @endforelse
+</tbody>
         </table>
     </div>
 </div>
@@ -61,16 +72,19 @@
 
     <div class="card-body">
         <table class="table table-bordered">
+            <thead class="table-success">
             <tr>
                 <th>Judul</th>
                 <th>Tanggal</th>
                 <th>Aksi</th>
             </tr>
+            </thead>
 
-            @foreach($dijadwalkan as $k)
+            <tbody>
+            @forelse($dijadwalkan as $k)
             <tr>
                 <td>{{ $k->judul }}</td>
-                <td>{{ $k->tanggal }}</td>
+                <td>{{ \Carbon\Carbon::parse($k->tanggal)->format('d M Y') }}</td>
                 <td>
                     <form action="/admin/kegiatan/mulai/{{ $k->id }}"
                           method="POST"
@@ -91,7 +105,14 @@
                     </form>
                 </td>
             </tr>
-            @endforeach
+            @empty
+            <tr>
+                <td colspan="3" class="text-center">
+                    Tidak ada kegiatan yang dijadwalkan.
+                </td>
+            </tr>
+            @endforelse
+            </tbody>
         </table>
     </div>
 </div>
@@ -105,16 +126,19 @@
 
     <div class="card-body">
         <table class="table table-bordered">
+            <thead class="table-success">
             <tr>
                 <th>Judul</th>
                 <th>Tanggal</th>
                 <th>Aksi</th>
             </tr>
+            </thead>
 
-            @foreach($berlangsung as $k)
+            <tbody>
+            @forelse($berlangsung as $k)
             <tr>
                 <td>{{ $k->judul }}</td>
-                <td>{{ $k->tanggal }}</td>
+                <td>{{ \Carbon\Carbon::parse($k->tanggal)->format('d M Y') }}</td>
                 <td>
                     <form action="/admin/kegiatan/selesai/{{ $k->id }}"
                           method="POST">
@@ -125,7 +149,14 @@
                     </form>
                 </td>
             </tr>
-            @endforeach
+            @empty
+            <tr>
+                <td colspan="3" class="text-center">
+                    Tidak ada kegiatan yang berlangsung.
+                </td>
+            </tr>
+            @endforelse
+            </tbody>
         </table>
     </div>
 </div>

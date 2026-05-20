@@ -2,18 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kegiatan;
+
 class LandingController extends Controller
 {
-    public function index()
-    {
-        $totalKegiatan = \App\Models\Kegiatan::count();
-        $totalAnggaran = \App\Models\Anggaran::sum('total');
-        $kegiatans = \App\Models\Kegiatan::latest()->take(5)->get();
+public function index()
+{
+    $kegiatans = Kegiatan::with('galeri')
+        ->where('status', 'selesai')
+        ->has('galeri')
+        ->latest()
+        ->take(6)
+        ->get();
 
-        return view('landing', compact(
-            'totalKegiatan',
-            'totalAnggaran',
-            'kegiatans'
-        ));
-    }
+    $totalKegiatan = Kegiatan::where('status', 'selesai')->count();
+
+    return view('landing', compact('kegiatans', 'totalKegiatan'));
+}
+
+
+public function detail($id)
+{
+    $kegiatan = Kegiatan::with([
+        'galeri'
+    ])
+    ->where('status', 'selesai')
+    ->has('galeri')
+    ->findOrFail($id);
+
+    return view('public.detail', compact('kegiatan'));
+}
 }

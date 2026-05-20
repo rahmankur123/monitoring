@@ -12,13 +12,17 @@ use App\Http\Controllers\LpjController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\UserController;
 
 Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
-
+// ========================= PUBLIC ACCESS ========================= //
 Route::get('/', [LandingController::class, 'index']);
+Route::get('/kegiatan/{id}', [LandingController::class, 'detail']);
+
+// ========================= ADMIN ========================= //
 Route::prefix('admin')
     ->middleware(['auth','role:admin'])
     ->group(function () {
@@ -33,6 +37,7 @@ Route::prefix('admin')
     Route::post('/kegiatan/update/{id}', [KegiatanController::class, 'update']);
     Route::post('/kegiatan/submit/{id}', [KegiatanController::class, 'submit']);
     Route::get('/kegiatan/{id}/anggaran', [KegiatanController::class, 'listAnggaran']);
+    Route::delete('/kegiatan/{id}', [KegiatanController::class, 'destroy']);
 
     // ACTION WORKFLOW
     Route::post('/kegiatan/submit/{id}', [KegiatanController::class, 'submit']);
@@ -48,14 +53,25 @@ Route::prefix('admin')
 
     Route::get('/kegiatan/{kegiatan_id}/detail-selesai', [KegiatanController::class, 'detailSelesai']);
 
+    Route::get('/user', [UserController::class, 'index']);
+    Route::get('/user/create', [UserController::class, 'create']);
+    Route::post('/user/store', [UserController::class, 'store']);
 
-Route::get('/laporan/kegiatan', [KegiatanController::class, 'laporan']);
-Route::get('/laporan/kegiatan/pdf', [KegiatanController::class, 'exportKegiatan']);
-Route::get('/laporan/kas', [KasController::class, 'laporan']);
-Route::get('/laporan/kas/pdf', [KasController::class, 'exportKas']);
-Route::get('/', [DashboardController::class, 'admin']);
+    Route::get('/user/edit/{id}', [UserController::class, 'edit']);
+    Route::post('/user/update/{id}', [UserController::class, 'update']);
+
+    Route::post('/user/delete/{id}', [UserController::class, 'destroy']);
+
+
+    Route::get('/laporan/kegiatan', [KegiatanController::class, 'laporan']);
+    Route::get('/laporan/kegiatan/pdf', [KegiatanController::class, 'exportKegiatan']);
+    Route::get('/laporan/kas', [KasController::class, 'laporan']);
+    Route::get('/laporan/kas/pdf', [KasController::class, 'exportKas']);
+    Route::get('/', [DashboardController::class, 'admin']);
 });
 
+
+//------------------------ BENDAHARA ------------------------ //
 Route::prefix('bendahara')
     ->middleware(['auth','role:bendahara'])
     ->group(function () {
@@ -98,6 +114,8 @@ Route::get('/', [DashboardController::class, 'bendahara']);
 
 });
 
+
+//------------------------ TAKMIR ------------------------ //
 Route::prefix('takmir')
     ->middleware(['auth','role:takmir'])
     ->group(function () {
