@@ -18,6 +18,7 @@ class Kegiatan extends Model
         'validated_by',
         'validated_at',
         'revisi_ke',
+        'proposal',
         'last_submitted_at'
     ];
 

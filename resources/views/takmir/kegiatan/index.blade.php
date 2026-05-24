@@ -22,6 +22,7 @@
             <tr>
                 <th>Judul</th>
                 <th>Tanggal</th>
+                <th>Proposal</th>
                 <th>Status</th>
                 <th width="200">Aksi</th>
             </tr>
@@ -29,7 +30,16 @@
             @forelse($menunggu as $k)
             <tr>
                 <td>{{ $k->judul }}</td>
-                <td>{{ $k->tanggal }}</td>
+                <td>{{ \Carbon\Carbon::parse($k->tanggal)->format('d M Y') }}</td>
+                <td>
+                    @if($k->proposal)
+                        <a href="{{ asset('storage/'.$k->proposal) }}" target="_blank" class="btn btn-sm btn-info">
+                            Lihat Proposal
+                        </a>
+                    @else
+                        <span class="text-muted">Tidak ada proposal</span>
+                    @endif
+                </td>
                 <td>
                     <span class="badge bg-warning">
                         Menunggu
@@ -65,6 +75,7 @@
             <tr>
                 <th>Judul</th>
                 <th>Tanggal</th>
+                <th>Proposal</th>
                 <th>Catatan</th>
                 <th>Status</th>
             </tr>
@@ -72,7 +83,16 @@
             @forelse($ditolak as $k)
             <tr>
                 <td>{{ $k->judul }}</td>
-                <td>{{ $k->tanggal }}</td>
+                <td>{{ \Carbon\Carbon::parse($k->tanggal)->format('d M Y') }}</td>
+                <td>
+                    @if($k->proposal)
+                        <a href="{{ asset('storage/'.$k->proposal) }}" target="_blank" class="btn btn-sm btn-info">
+                            Lihat Proposal
+                        </a>
+                    @else
+                        <span class="text-muted">Tidak ada proposal</span>
+                    @endif
+                </td>
                 <td>{{ $k->catatan_takmir ?? '-' }}</td>
                 <td>
                     <span class="badge bg-danger">

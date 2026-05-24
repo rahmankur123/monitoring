@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Kegiatan;
 use PDF;
+use Illuminate\Support\Facades\Storage;
 
 class KegiatanController extends Controller
 {
@@ -69,12 +70,21 @@ public function selesaikan()
 
     public function store(Request $request)
     {
+
+    $proposal = null;
+
+    if($request->hasFile('proposal')){
+        $proposal = $request->file('proposal')
+                            ->store('proposal','public');
+    }
+    
         Kegiatan::create([
             'judul' => $request->judul,
             'deskripsi' => $request->deskripsi,
             'tanggal' => $request->tanggal,
             'status' => 'draft',
-            'created_by' => auth()->id()
+            'created_by' => auth()->id(),
+            'proposal' => $proposal
         ]);
 
         return redirect('/admin/kegiatan/draft')
@@ -105,19 +115,37 @@ public function selesaikan()
     |--------------------------------------------------------------------------
     */
 
-    public function update(Request $request, $id)
-    {
-        $kegiatan = Kegiatan::findOrFail($id);
 
-        $kegiatan->update([
-            'judul' => $request->judul,
-            'deskripsi' => $request->deskripsi,
-            'tanggal' => $request->tanggal,
-        ]);
+public function update(Request $request, $id)
+{
+    $kegiatan = Kegiatan::findOrFail($id);
 
-        return redirect('/admin/kegiatan/draft')
-            ->with('success', 'Berhasil diupdate');
+    $data = [
+        'judul' => $request->judul,
+        'deskripsi' => $request->deskripsi,
+        'tanggal' => $request->tanggal,
+    ];
+
+    if($request->hasFile('proposal')){
+
+        // hapus proposal lama
+        if($kegiatan->proposal){
+            Storage::disk('public')
+                   ->delete($kegiatan->proposal);
+        }
+
+        // simpan proposal baru
+        $data['proposal'] = $request
+            ->file('proposal')
+            ->store('proposal', 'public');
     }
+
+    // update semua data termasuk proposal
+    $kegiatan->update($data);
+
+    return redirect('/admin/kegiatan/draft')
+        ->with('success', 'Berhasil diupdate');
+}
 
 
     /*

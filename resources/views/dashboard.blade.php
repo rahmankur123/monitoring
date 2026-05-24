@@ -2,7 +2,30 @@
 
 @section('content')
 
-<h3 class="mb-4">Dashboard</h3>
+<div class="dashboard-header mb-4">
+    <h2 class="fw-bold text-dark mb-2">
+        📊 Dashboard Kegiatan Masjid
+    </h2>
+    <p class="text-muted mb-0">
+        Transparansi kegiatan, pengelolaan anggaran, LPJ, realisasi dana, serta dokumentasi masjid secara profesional dan terpercaya.
+    </p>
+</div>
+
+<div class="welcome-card mb-4">
+    <div class="d-flex align-items-center">
+        <div class="welcome-icon me-3">
+            👋
+        </div>
+        <div>
+            <h5 class="mb-1">
+                Selamat datang, <strong>{{ auth()->user()->name }}</strong>
+            </h5>
+            <small class="text-muted">
+                Berikut adalah ringkasan kegiatan yang sedang berlangsung hari ini.
+            </small>
+        </div>
+    </div>
+</div>
 
 <div class="row g-3 mb-4">
 

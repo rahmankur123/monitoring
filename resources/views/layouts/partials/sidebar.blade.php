@@ -1,7 +1,5 @@
 <div class="sidebar">
 
-    <h5 class="logo">🕌 Masjid App</h5>
-
     @auth
 
         <div class="user-box">
@@ -29,7 +27,7 @@
             <div class="menu-title">Kegiatan</div>
 
             <a href="/admin/kegiatan/draft" class="menu-item">
-                📄 Draft & Ditolak
+                📄 Approval
             </a>
 
             <a href="/admin/kegiatan/proses" class="menu-item">
@@ -57,7 +55,7 @@
             <div class="menu-title">Kegiatan</div>
 
             <a href="/bendahara/anggaran/draft" class="menu-item">
-                📄 Draft & Ditolak
+                📄 Approval
             </a>
 
             <a href="/bendahara/anggaran/proses" class="menu-item">
@@ -85,7 +83,7 @@
             <div class="menu-title">Kegiatan</div>
 
             <a href="/takmir/kegiatan/draft" class="menu-item">
-                📄 Draft & Ditolak
+                📄 Approval
             </a>
 
             <a href="/takmir/kegiatan/proses" class="menu-item">

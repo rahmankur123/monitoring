@@ -144,6 +144,45 @@
         .table {
             background: white;
         }
+        .dashboard-header{
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    border-left: 5px solid #667eea;
+}
+
+.dashboard-header h2{
+    font-size: 28px;
+}
+
+.dashboard-header p{
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.welcome-card{
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 22px;
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(102,126,234,0.25);
+}
+
+.welcome-icon{
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.welcome-card small{
+    color: rgba(255,255,255,0.85) !important;
+}
     </style>
 </head>
 <body>

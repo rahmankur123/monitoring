@@ -59,6 +59,7 @@
                 <tr>
                     <th>Judul Kegiatan</th>
                     <th>Tanggal</th>
+                    <th>Proposal</th>
                     <th>Status Anggaran</th>
                     <th width="220">Aksi</th>
                 </tr>
@@ -69,6 +70,15 @@
                 <tr>
                     <td>{{ $k->judul }}</td>
                     <td> {{ \Carbon\Carbon::parse($k->tanggal)->format('d M Y') }}</td>
+                    <td>
+                        @if($k->proposal)
+                            <a href="{{ asset('storage/'.$k->proposal) }}" target="_blank" class="btn btn-sm btn-info">
+                                Lihat Proposal
+                            </a>
+                        @else
+                            <span class="text-muted">Tidak ada proposal</span>
+                        @endif
+                    </td>
 
                     <td class="text-center">
                         @if($k->anggaran_count > 0)
@@ -170,6 +180,7 @@
                 <tr>
                     <th>Judul Kegiatan</th>
                     <th>Tanggal</th>
+                    <th>Proposal</th>
                     <th>Status Anggaran</th>
                     <th>Catatan Takmir</th>
                     <th width="220">Aksi</th>
@@ -181,6 +192,15 @@
                 <tr>
                     <td>{{ $k->judul }}</td>
                     <td>{{ \Carbon\Carbon::parse($k->tanggal)->format('d M Y') }}</td>
+                    <td>
+                        @if($k->proposal)
+                            <a href="{{ asset('storage/'.$k->proposal) }}" target="_blank" class="btn btn-sm btn-info">
+                                Lihat Proposal
+                            </a>
+                        @else
+                            <span class="text-muted">Tidak ada proposal</span>
+                        @endif
+                    </td>
 
                     <td class="text-center">
                         @if($k->anggaran_count > 0)
