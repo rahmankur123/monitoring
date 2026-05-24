@@ -31,4 +31,11 @@ class EvaluasiController extends Controller
 
         return back()->with('success','Evaluasi ditambahkan');
     }
+    public function destroy($id)
+    {
+        $evaluasi = Evaluasi::findOrFail($id);
+        $evaluasi->delete();
+
+        return back()->with('success', 'Evaluasi berhasil dihapus');
+    }
 }
