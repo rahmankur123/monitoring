@@ -47,6 +47,7 @@ Route::prefix('admin')
 
     Route::get('/evaluasi/{kegiatan_id}', [EvaluasiController::class, 'index']);
     Route::post('/evaluasi/store', [EvaluasiController::class, 'store']);
+    Route::delete('/evaluasi/delete/{id}', [EvaluasiController::class, 'destroy']);
     Route::get('/galeri/{kegiatan_id}', [GaleriController::class, 'index']);
     Route::post('/galeri/store', [GaleriController::class, 'store']);
     Route::post('/galeri/delete/{id}', [GaleriController::class, 'destroy']);
@@ -134,6 +135,7 @@ Route::prefix('takmir')
 
     Route::get('/evaluasi/{kegiatan_id}', [EvaluasiController::class, 'index']);
     Route::post('/evaluasi/store', [EvaluasiController::class, 'store']);
+    Route::delete('/evaluasi/delete/{id}', [EvaluasiController::class, 'destroy']);
 
     Route::get('/kegiatan/{id}/detail-selesai', [KegiatanController::class, 'detailSelesai']);
 
