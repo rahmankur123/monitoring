@@ -57,7 +57,7 @@
                 </div>
 
                 {{-- tombol hapus --}}
-                <form action="/evaluasi/delete/{{ $e->id }}"
+                <form action="{{ url(auth()->user()->role.'/evaluasi/delete/'.$e->id) }}"
                       method="POST"
                       onsubmit="return confirm('Yakin hapus evaluasi ini?')">
 
