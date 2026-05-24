@@ -59,7 +59,7 @@ class RealisasiController extends Controller
         'kegiatan_id' => $kegiatan_id
     ]);
 
-    return redirect('/bendahara/realisasi')
+    return redirect('/bendahara/anggaran/selesai')
         ->with('success','Realisasi berhasil disimpan');
 }
     public function index()
