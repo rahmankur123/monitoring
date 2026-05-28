@@ -32,4 +32,9 @@ public function detail($id)
 
     return view('public.detail', compact('kegiatan'));
 }
+
+public function about()
+{
+    return view('public.about');
+}
 }

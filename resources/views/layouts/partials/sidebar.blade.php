@@ -12,10 +12,10 @@
         {{-- ========================= --}}
         {{-- DASHBOARD --}}
         {{-- ========================= --}}
-        <div class="menu-title">Dashboard</div>
+        <div class="menu-title">Beranda Amanah</div>
 
         <a href="/{{ auth()->user()->role }}" class="menu-item">
-            🏠 Dashboard
+            🏠 Beranda Amanah
         </a>
 
 
@@ -27,15 +27,15 @@
             <div class="menu-title">Kegiatan</div>
 
             <a href="/admin/kegiatan/draft" class="menu-item">
-                📄 Approval
+                📄 Tadhdiq
             </a>
 
             <a href="/admin/kegiatan/proses" class="menu-item">
-                ⏳ Proses Kegiatan
+                ⏳ Proses Amanah
             </a>
 
             <a href="/admin/kegiatan/selesai" class="menu-item">
-                ✅ Selesai
+                ✅ Khatam Kegiatan
             </a>
 
             <div class="menu-title">Manajemen</div>
@@ -55,21 +55,21 @@
             <div class="menu-title">Kegiatan</div>
 
             <a href="/bendahara/anggaran/draft" class="menu-item">
-                📄 Approval
+                📄 Tashdiq
             </a>
 
             <a href="/bendahara/anggaran/proses" class="menu-item">
-                ⏳ Proses Kegiatan
+                ⏳ Proses Amanah
             </a>
 
             <a href="/bendahara/anggaran/selesai" class="menu-item">
-                ✅ Selesai
+                ✅ Khatam Kegiatan
             </a>
 
             <div class="menu-title">Keuangan</div>
 
             <a href="/bendahara/kas" class="menu-item">
-                💰 Kas
+                💰 Kas Adil
             </a>
 
         @endif
@@ -83,15 +83,15 @@
             <div class="menu-title">Kegiatan</div>
 
             <a href="/takmir/kegiatan/draft" class="menu-item">
-                📄 Approval
+                📄 Tadhdiq
             </a>
 
             <a href="/takmir/kegiatan/proses" class="menu-item">
-                ⏳ Proses Kegiatan
+                ⏳ Proses Amanah
             </a>
 
             <a href="/takmir/kegiatan/selesai" class="menu-item">
-                ✅ Selesai
+                ✅ Khatam Kegiatan
             </a>
 
         @endif
@@ -103,11 +103,11 @@
         <div class="menu-title">Laporan</div>
 
         <a href="/{{ auth()->user()->role }}/laporan/kegiatan" class="menu-item">
-            📊 Laporan Kegiatan
+            📊 Laporan Syiar
         </a>
 
         <a href="/{{ auth()->user()->role }}/laporan/kas" class="menu-item">
-            💰 Laporan Kas
+            💰 Baitul Mal
         </a>
 
 

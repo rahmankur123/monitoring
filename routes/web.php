@@ -20,6 +20,7 @@ Route::post('/logout', [AuthController::class, 'logout']);
 
 // ========================= PUBLIC ACCESS ========================= //
 Route::get('/', [LandingController::class, 'index']);
+Route::get('/about', [LandingController::class, 'about']);
 Route::get('/kegiatan/{id}', [LandingController::class, 'detail']);
 
 // ========================= ADMIN ========================= //
