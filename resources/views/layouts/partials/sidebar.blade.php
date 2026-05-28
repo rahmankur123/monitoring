@@ -27,7 +27,7 @@
             <div class="menu-title">Kegiatan</div>
 
             <a href="/admin/kegiatan/draft" class="menu-item">
-                📄 Tadhdiq
+                📄 Tashdiq
             </a>
 
             <a href="/admin/kegiatan/proses" class="menu-item">
@@ -83,7 +83,7 @@
             <div class="menu-title">Kegiatan</div>
 
             <a href="/takmir/kegiatan/draft" class="menu-item">
-                📄 Tadhdiq
+                📄 Tashdiq
             </a>
 
             <a href="/takmir/kegiatan/proses" class="menu-item">
